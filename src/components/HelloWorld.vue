@@ -61,13 +61,13 @@
             >&times;</span
           >
           <div style="border-radius: 5px">
-            <h2>{{ pressedPhoto?.user?.username }}</h2>
+            <h2>Author: {{ pressedPhoto?.user?.username }}</h2>
             <i
               v-bind:style="{
                 color: pressedPhoto?.liked_by_user ? 'red' : 'white',
               }"
               @click="toggleLike(pressedPhoto)"
-              class="fa fa-heart redClass whiteClass"
+              class="fa fa-heart"
             ></i>
           </div>
         </div>
@@ -86,6 +86,7 @@
         </div>
         <div style="border-radius: 5px" class="modal-footer bg-gray-800">
           <h3>
+            Description: <br />
             {{ pressedPhoto?.alt_description }}
           </h3>
         </div>
@@ -312,7 +313,7 @@
           <i
             v-bind:style="{ color: item.liked_by_user ? 'red' : 'white' }"
             @click="toggleLike(item)"
-            class="fa fa-heart redClass whiteClass"
+            class="fa fa-heart"
           ></i>
           <p>
             {{ item.alt_description }}
@@ -470,12 +471,13 @@ export default {
   mounted() {
     this.query = document.getElementById("categories").value;
     console.log(this.query);
-
+    this.myLoader = true;
     this.photoService
       .getPhotos(this.page, this.per_page, this.query)
       .then((data) => {
         this.allPhotos = data;
         this.dataStored = data;
+        this.myLoader = false;
 
         console.log("all photos", this.allPhotos);
       });
